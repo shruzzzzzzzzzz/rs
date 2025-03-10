@@ -74,39 +74,30 @@
             document.getElementById("sliderValue").innerText = value;
         }
         
-        // Function to submit response
-        function submitResponse() {
-            let review1 = document.getElementById("review1").value;
-            let review2 = document.getElementById("review2").value;
-            let creativityScore = document.getElementById("creativity").value;
+      function submitResponse() {
+    const response = {
+      review1: document.getElementById("review1").value,
+      review2: document.getElementById("review2").value,
+      creativity: document.getElementById("creativity").value
+    };
 
-            if (review1.trim() === "" || review2.trim() === "" || creativityScore === "") {
-                alert("Please complete all fields before submitting.");
-                return;
-            }
-
-            let response = {
-                review1: review1,
-                review2: review2,
-                creativity: creativityScore
-            };
-
-            fetch("https://script.google.com/macros/s/AKfycbwOrK1NMrxVSD4EQu2FeFLCWZ_2iRz1QQEzxU5mQP-8V4p_bwf5706FE2kVWUp2inTLEg/exec", {  
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(response)
-            })
-            .then(res => res.text())
-            .then(data => {
-                alert("Thank you! Your response has been recorded.");
-                console.log("Server response:", data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("There was an issue submitting your response.");
-            });
-        }
-
+    // Updated fetch call
+    fetch("https://script.google.com/macros/s/AKfycbzRiyaaFBi9J4P_nr0CMYv85q1XPRWel2P-DGKC4wH1VzOdFAJoKjFTMiq9Q1uxyPprOw/exec", {
+      method: "POST",
+      mode: 'no-cors',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(response)
+    })
+    .then(() => {
+      alert("Thank you! Your response has been recorded.");
+      // Optional: Reset form or redirect
+      window.location.reload();
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Submission failed. Please try again.");
+    });
+  }
         // Ensure only Page 1 is visible initially
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("page1").style.display = "block";
