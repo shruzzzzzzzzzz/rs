@@ -75,29 +75,31 @@
         }
         
       function submitResponse() {
-    const response = {
-      review1: document.getElementById("review1").value,
-      review2: document.getElementById("review2").value,
-      creativity: document.getElementById("creativity").value
-    };
+  const response = {
+    review1: document.getElementById("review1").value,
+    review2: document.getElementById("review2").value,
+    creativity: document.getElementById("creativity").value
+  };
 
-    // Updated fetch call
-    fetch(https://script.google.com/macros/s/AKfycbzRiyaaFBi9J4P_nr0CMYv85q1XPRWel2P-DGKC4wH1VzOdFAJoKjFTMiq9Q1uxyPprOw/exec, {
-      method: "POST",
-      mode: 'no-cors',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(response)
-    })
-    .then(() => {
-      alert("Thank you! Your response has been recorded.");
-      // Optional: Reset form or redirect
-      window.location.reload();
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("Submission failed. Please try again.");
-    });
-  }
+  // Remove 'no-cors' mode
+  fetch("https://script.google.com/macros/s/AKfycbwRB9EfBt4q4e2Vi_L0Ikb39u3Pad28A7YM1tCZgpkiZ5TP1L0FeOFkkYUxiqqSsHsLtA/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(response)
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Network error');
+    return res.json();
+  })
+  .then(data => {
+    alert("Thank you! Your response has been recorded.");
+    window.location.reload();
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("Submission failed. Please try again.");
+  });
+}
         // Ensure only Page 1 is visible initially
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("page1").style.display = "block";
